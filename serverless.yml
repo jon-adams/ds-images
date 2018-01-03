@@ -5,20 +5,60 @@
 # don't commit your changes back to the master repository.
 #
 
-# create or copy the example configuration file to match the below for your own
-# custom configuration:
-custom: ${file(serverless-local.yml)}
-
 # For full config options, check the docs:
 #    docs.serverless.com
 #
 
+
+# Pin to only deploy specified Serverless versions
+# frameworkVersion: ">=1.0.0 <2.0.0"
+frameworkVersion: "=1.25.0"
+
+service: ${file(serverless-local.yml):service}
+
 provider:
+  name: aws
   runtime: nodejs6.10
+  stage: ${opt:stage, 'dev'}
+
+  memorySize: 512
+  timeout: 6
+  versionFunctions: false
+
+  region: us-east-2
+  deploymentBucket:
+    name: ${file(serverless-local.yml):deployment-bucket}
+  iamRoleStatements:
+    -  Effect: "Allow"
+       Action:
+         - "s3:ListBucket"
+       Resource:
+         Fn::Join:
+           - ""
+           - - "arn:aws:s3:::"
+             - Ref: ${file(serverless-local.yml):iam-bucket}
+    -  Effect: "Allow"
+       Action:
+         - "s3:GetObject"
+         - "s3:PutObject"
+       Resource:
+         Fn::Join:
+           - ""
+           - - "arn:aws:s3:::"
+             - Ref: ${file(serverless-local.yml):iam-bucket}
+             - "/*"
+
+plugins:
+  - serverless-webpack
 
 functions:
   health:
     handler: handler.health
+    name: ${self:service}-health
+    events:
+      - http:
+          method: get
+          path: health
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
