@@ -1,0 +1,54 @@
+# Much of the below related to deployment should be setup in a local
+# `serverless-local.yml` file and not committed back to this repository.
+# You may *copy* `serverless-local-example.yml` included in this repository
+# and rename it to match the below custom directive—just make sure you
+# don't commit your changes back to the master repository.
+#
+
+# create or copy the example configuration file to match the below for your own
+# custom configuration:
+custom: ${file(serverless-local.yml)}
+
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+
+provider:
+  runtime: nodejs6.10
+
+functions:
+  health:
+    handler: handler.health
+
+#    The following are a few example events you can configure
+#    NOTE: Please make sure to change your handler code to work with those events
+#    Check the event documentation for details
+#    events:
+#      - http:
+#          path: users/create
+#          method: get
+#      - s3: ${env:BUCKET}
+#      - schedule: rate(10 minutes)
+#      - sns: greeter-topic
+#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
+#      - alexaSkill
+#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
+#      - iot:
+#          sql: "SELECT * FROM 'some_topic'"
+#      - cloudwatchEvent:
+#          event:
+#            source:
+#              - "aws.ec2"
+#            detail-type:
+#              - "EC2 Instance State-change Notification"
+#            detail:
+#              state:
+#                - pending
+#      - cloudwatchLog: '/aws/lambda/health'
+#      - cognitoUserPool:
+#          pool: MyUserPool
+#          trigger: PreSignUp
+
+#    Define function environment variables here
+#    environment:
+#      variable2: value2
