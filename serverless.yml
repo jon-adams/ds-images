@@ -14,7 +14,9 @@
 # frameworkVersion: ">=1.0.0 <2.0.0"
 frameworkVersion: "=1.25.0"
 
-service: ${file(serverless-local.yml):service}
+custom: ${file(serverless-local.yml)}
+
+service: ${self:custom.service}
 
 provider:
   name: aws
@@ -25,28 +27,9 @@ provider:
   timeout: 6
   versionFunctions: false
 
-  region: us-east-2
+  region: ${opt:region, self:custom.region}
   deploymentBucket:
-    name: ${file(serverless-local.yml):deployment-bucket}
-  iamRoleStatements:
-    -  Effect: "Allow"
-       Action:
-         - "s3:ListBucket"
-       Resource:
-         Fn::Join:
-           - ""
-           - - "arn:aws:s3:::"
-             - Ref: ${file(serverless-local.yml):iam-bucket}
-    -  Effect: "Allow"
-       Action:
-         - "s3:GetObject"
-         - "s3:PutObject"
-       Resource:
-         Fn::Join:
-           - ""
-           - - "arn:aws:s3:::"
-             - Ref: ${file(serverless-local.yml):iam-bucket}
-             - "/*"
+    name: ${self:custom.deployment-bucket}
 
 plugins:
   - serverless-webpack
@@ -55,10 +38,37 @@ functions:
   health:
     handler: handler.health
     name: ${self:service}-health
+    memorySize: 64
+    timeout: 6
+    role: ${self:custom.iam-role}
+    # recommend using an AWS IAM Role instead of an inline policy like the following:
+    #   iamRoleStatements:
+    #     -  Effect: "Allow"
+    #        Action:
+    #          - "s3:ListBucket"
+    #        Resource:
+    #          Fn::Join:
+    #            - ""
+    #            - - "arn:aws:s3:::"
+    #              - Ref: ${self:custom.iam-bucket}
+    #     -  Effect: "Allow"
+    #        Action:
+    #          - "s3:GetObject"
+    #          - "s3:PutObject"
+    #        Resource:
+    #          Fn::Join:
+    #            - ""
+    #            - - "arn:aws:s3:::"
+    #              - Ref: ${self:custom.iam-bucket}
+    #              - "/*"
     events:
       - http:
           method: get
           path: health
+        #   request:
+        #     template:
+        #       text/html: '{ }'
+        #       application/json: '{ }'
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -68,27 +78,10 @@ functions:
 #          path: users/create
 #          method: get
 #      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/health'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
 
 #    Define function environment variables here
 #    environment:
 #      variable2: value2
+
+# resources:
+#   Resources:
