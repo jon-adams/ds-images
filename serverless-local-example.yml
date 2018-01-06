@@ -5,6 +5,6 @@
 
 service: ds-images
 region: us-east-1
-deployment-bucket: 'com.serverless.us-east-1.deploys'
-iam-bucket: 'some.bucket.name'
+deployment-bucket: com.serverless.us-east-1.deploys
+iam-bucket: some.bucket.name
 iam-role: 'arn:aws:iam::AWS_ACCOUNT_NUMBER_HERE:role/ROLE_NAME_HERE'

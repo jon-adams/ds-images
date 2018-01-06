@@ -22,7 +22,7 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: ${opt:stage, 'dev'}
-
+  # memory size must be 128 or greater; default AWS setting is 1024 (as of this writing)
   memorySize: 512
   timeout: 6
   versionFunctions: false
@@ -38,7 +38,7 @@ functions:
   health:
     handler: handler.health
     name: ${self:service}-health
-    memorySize: 64
+    memorySize: 128
     timeout: 6
     role: ${self:custom.iam-role}
     # recommend using an AWS IAM Role instead of an inline policy like the following:
