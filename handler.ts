@@ -1,11 +1,13 @@
-import { APIGatewayEvent, ProxyCallback, Context, ProxyHandler, ProxyResult } from "aws-lambda";
+import { APIGatewayEvent, Context, ProxyCallback, ProxyHandler, ProxyResult } from "aws-lambda";
 
 export const health: ProxyHandler = (event: APIGatewayEvent, context: Context, cb: ProxyCallback) => {
   // find Accept content-type, defaulting to JSON
-  let defaultContentTypeJson: string = "application/json";
-  let acceptStr: string = !event.headers || event.headers.Accept == null ? defaultContentTypeJson : event.headers.Accept;
+  const defaultContentTypeJson: string = "application/json";
+  const acceptStr: string = !event.headers || event.headers.Accept == null
+    ? defaultContentTypeJson
+    : event.headers.Accept;
   // if JSON found, use it first, then check for common text/ styles, finally default to JSON if no other type found
-  let accept: string = acceptStr === "" ||
+  const accept: string = acceptStr === "" ||
     acceptStr.indexOf(defaultContentTypeJson) > -1
     ? defaultContentTypeJson
     : acceptStr.indexOf("text/html") > -1 ? "text/html"
@@ -13,13 +15,13 @@ export const health: ProxyHandler = (event: APIGatewayEvent, context: Context, c
     : acceptStr.indexOf("*/*") > -1 ? defaultContentTypeJson
     : null;
 
-  let response: ProxyResult = {
+  const response: ProxyResult = {
       statusCode: 0,
       body: null,
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Content-Type": accept || defaultContentTypeJson
-      }
+        "Content-Type": accept || defaultContentTypeJson,
+      },
     };
 
   if (!accept) {
@@ -29,10 +31,10 @@ export const health: ProxyHandler = (event: APIGatewayEvent, context: Context, c
   } else {
     response.statusCode = 200;
     response.body = accept === defaultContentTypeJson ? JSON.stringify({
-        message: "Healthy!"
+        message: "Healthy!",
         // debugging://,input: event
         })
-        : accept === "text/html" ? "<html><head><title>DS Images</title></head><body><h1>Healthy</h1></body></html>"
+        : accept === "text/html" ? "<html><head><title>DS Images</title></head><body><h1>Healthy!</h1></body></html>"
         : "Healthy!";
     cb(null, response);
   }
