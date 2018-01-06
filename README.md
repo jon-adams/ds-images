@@ -13,6 +13,17 @@ Built with the [Serverless](https://serverless.com/) framework for use with AWS 
 
 To deploy to an AWS account, setup the AWS Credential store or environment variables as usual.
 
+### Recommended tools
+
+* An IDE or plugin that can utilize `.editorconfig` files
+* An IDE or plugin that can show `tslint` warnings
+
+### Helpful tool documentation
+
+* [Serverless AWS documentation](https://serverless.com/framework/docs/providers/aws/)
+* [TypeScript](https://www.typescriptlang.org/docs/handbook/basic-types.html)
+* List of the default [tslint rules](https://palantir.github.io/tslint/rules/)
+
 ### One-time setup
 
 1. Install NodeJs 6.10+
@@ -29,14 +40,78 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 1. Run `yarn` to install and upgrade necessary development libraries
 1. Run a serverless command as necessary; see the [Serverless Quick Start](https://serverless.com/framework/docs/providers/aws/guide/quick-start/) documentation
 
-Example deployment:
+Example deployment to AWS Lambda development (staging):
 
 ```bash
-serverless deploy
+serverless deploy -v
+```
+
+Example deployment of a single function (based on the base function name given in `serverless.yml`)
+
+```bash
+serverless deploy -f health
+```
+
+Example deployment to production:
+
+```bash
+serverless deploy -v -stage production
 ```
 
 Example cleanup:
 
 ```bash
 serverless remove
+```
+
+### Debugging and Diagnostics
+
+Some tips:
+
+* Any references to running the `serverless` tool can also be run with the symlink/cmd `sls`
+* Run `serverless print` to check your serverless configuration (including variable substitutions)
+* Run `servers invoke local -f health`; if returns without much of a message beyond some asset names and does not also show a JSON body with something like `"body":{"message"}:"Healthy!"}` in it, then check your provider configuration
+* Run `serverless package`, then check `~/.serverless/cloudformation-template...json` to check your provider configuration and what is going to end up as your AWS CloudFormation stack
+* Whatever IAM Role (or IAM inline permissions) you supply, should have access to CloudWatch logs and appropriate S3 buckets/paths. Example:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::your.bucket.name.here"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::your.bucket.name.here/directory-one",
+                "arn:aws:s3:::your.bucket.name.here/directory-one/*",
+                "arn:aws:s3:::your.bucket.name.here/directory-two",
+                "arn:aws:s3:::your.bucket.name.here/directory-two/*",
+                "arn:aws:s3:::your.bucket.name.here"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:PutLogEvents",
+                "logs:PutRetentionPolicy"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
 ```

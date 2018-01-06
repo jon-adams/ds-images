@@ -10,9 +10,9 @@
     ramda "^0.24.1"
     url-parse "^1.1.9"
 
-"@types/aws-lambda@0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-0.0.25.tgz#ceb08ea9b89e1c18b93058d684664c45bdd95133"
+"@types/aws-lambda@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-0.0.26.tgz#e16ae8ea87b63151cb48c6fba3c540282ff38902"
 
 "@types/graphql@0.10.2":
   version "0.10.2"
