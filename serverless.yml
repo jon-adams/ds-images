@@ -28,6 +28,7 @@ provider:
   versionFunctions: false
 
   region: ${opt:region, self:custom.region}
+  endpointType: REGIONAL
   deploymentBucket:
     name: ${self:custom.deployment-bucket}
 
