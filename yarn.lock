@@ -10,7 +10,7 @@
     ramda "^0.24.1"
     url-parse "^1.1.9"
 
-"@types/aws-lambda@^0.0.26":
+"@types/aws-lambda@^0.x":
   version "0.0.26"
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-0.0.26.tgz#e16ae8ea87b63151cb48c6fba3c540282ff38902"
 
@@ -18,9 +18,9 @@
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.10.2.tgz#d7c79acbaa17453b6681c80c34b38fcb10c4c08c"
 
-"@types/node@^6.0.95":
-  version "6.0.95"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.95.tgz#0d027612a77c55b84497ff90a4a7d597e5ac0fab"
+"@types/node@~6.0":
+  version "6.0.96"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.96.tgz#7bf0bf40d6ce51e93762cc47d010c8cc5ebb2179"
 
 abbrev@1:
   version "1.1.1"
@@ -266,6 +266,21 @@ asynckit@^0.4.0:
 aws-sdk@^2.75.0:
   version "2.176.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.176.0.tgz#2723c14e1c623ac45c5b890a3fc736eee8085f67"
+  dependencies:
+    buffer "4.9.1"
+    crypto-browserify "1.0.9"
+    events "^1.1.1"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+    xmlbuilder "4.2.1"
+
+aws-sdk@^2.x:
+  version "2.177.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.177.0.tgz#d5fbf1f82bab250e55153699b030b44f687f600b"
   dependencies:
     buffer "4.9.1"
     crypto-browserify "1.0.9"
@@ -2686,7 +2701,11 @@ semver@~5.0.1:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.0.3.tgz#77466de589cd5d3c95f138aa78bc569a3cb5d27a"
 
-serverless-webpack@^4.2.0:
+serverless-apigw-binary@^0.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/serverless-apigw-binary/-/serverless-apigw-binary-0.4.4.tgz#f3cffd8365322a2a1d8bde5fd94b306b7a64d4fb"
+
+serverless-webpack@^4.2:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-4.2.0.tgz#33707dd429a32e05fa5056b57930b90f2d5e9090"
   dependencies:
@@ -3044,7 +3063,7 @@ trim-repeated@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-ts-loader@^3.2.0:
+ts-loader@^3.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.2.0.tgz#23211922179b81f7448754b7fdfca45b8374a15a"
   dependencies:
@@ -3079,7 +3098,7 @@ tslib@^1.7.1, tslib@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.1.tgz#6946af2d1d651a7b1863b531d6e5afa41aa44eac"
 
-tslint@^5.8.0:
+tslint@^5.8:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.8.0.tgz#1f49ad5b2e77c76c3af4ddcae552ae4e3612eb13"
   dependencies:
@@ -3119,7 +3138,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.6.2:
+typescript@^2.6:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
@@ -3288,7 +3307,7 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^3.10.0:
+webpack@^3.10:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.10.0.tgz#5291b875078cf2abf42bdd23afe3f8f96c17d725"
   dependencies:

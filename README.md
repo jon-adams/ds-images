@@ -49,7 +49,7 @@ serverless deploy -v
 Example deployment of a single function (based on the base function name given in `serverless.yml`)
 
 ```bash
-serverless deploy -f health
+serverless deploy -f image
 ```
 
 Example deployment to production:
@@ -70,7 +70,7 @@ Some tips:
 
 * Any references to running the `serverless` tool can also be run with the symlink/cmd `sls`
 * Run `serverless print` to check your serverless configuration (including variable substitutions)
-* Run `servers invoke local -f health`; if returns without much of a message beyond some asset names and does not also show a JSON body with something like `"body":{"message"}:"Healthy!"}` in it, then check your provider configuration
+* Run `servers invoke local -f image --path test.json`; if returns without much of a message beyond some asset names and does not also show an HTTP body, then check your provider configuration
 * Run `serverless package`, then check `~/.serverless/cloudformation-template...json` to check your provider configuration and what is going to end up as your AWS CloudFormation stack
 * Whatever IAM Role (or IAM inline permissions) you supply, should have access to CloudWatch logs and appropriate S3 buckets/paths. Example:
 

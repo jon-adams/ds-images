@@ -14,9 +14,13 @@
 # frameworkVersion: ">=1.0.0 <2.0.0"
 frameworkVersion: "=1.25.0"
 
-custom: ${file(serverless-local.yml)}
+custom:
+  config: ${file(serverless-local.yml)}
+  apigwBinary:
+    types:
+      - '*/*'
 
-service: ${self:custom.service}
+service: ${self:custom.config.service}
 
 provider:
   name: aws
@@ -27,49 +31,37 @@ provider:
   timeout: 6
   versionFunctions: false
 
-  region: ${opt:region, self:custom.region}
+  region: ${opt:region, self:custom.config.region}
   endpointType: REGIONAL
   deploymentBucket:
-    name: ${self:custom.deployment-bucket}
+    name: ${self:custom.config.deployment-bucket}
 
 plugins:
   - serverless-webpack
+  - serverless-apigw-binary
 
 functions:
-  health:
-    handler: handler.health
-    name: ${self:service}-health
-    memorySize: 128
-    timeout: 6
-    role: ${self:custom.iam-role}
-    # recommend using an AWS IAM Role instead of an inline policy like the following:
-    #   iamRoleStatements:
-    #     -  Effect: "Allow"
-    #        Action:
-    #          - "s3:ListBucket"
-    #        Resource:
-    #          Fn::Join:
-    #            - ""
-    #            - - "arn:aws:s3:::"
-    #              - Ref: ${self:custom.iam-bucket}
-    #     -  Effect: "Allow"
-    #        Action:
-    #          - "s3:GetObject"
-    #          - "s3:PutObject"
-    #        Resource:
-    #          Fn::Join:
-    #            - ""
-    #            - - "arn:aws:s3:::"
-    #              - Ref: ${self:custom.iam-bucket}
-    #              - "/*"
+
+  image:
+    handler: handler.image
+    name: ${self:service}-image
+    role: ${self:custom.config.iam-role}
+    environment:
+      BUCKET: ${self:custom.config.image-bucket}
+    memorySize: 1024
+    timeout: 15
     events:
       - http:
           method: get
-          path: health
-        #   request:
-        #     template:
-        #       text/html: '{ }'
-        #       application/json: '{ }'
+          path: img/{dir}/{file}
+          request:
+            parameters:
+              querystrings:
+                width: false
+                height: false
+              paths:
+                dir: true
+                file: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -79,10 +71,3 @@ functions:
 #          path: users/create
 #          method: get
 #      - s3: ${env:BUCKET}
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# resources:
-#   Resources:

@@ -1,9 +1,10 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "lib": [
-      "es5",
-      "es2015.promise"
-    ]
-  }
+    "compilerOptions": {
+        "sourceMap": true,
+        "lib": [
+            "dom",
+            "es5",
+            "es2015.promise"
+        ]
+    }
 }
