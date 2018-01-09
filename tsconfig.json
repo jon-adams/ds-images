@@ -1,10 +1,17 @@
 {
     "compilerOptions": {
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "removeComments": true,
         "sourceMap": true,
         "lib": [
             "dom",
             "es5",
             "es2015.promise"
         ]
-    }
+    },
+    "include": [
+        "*.ts"
+    ]
 }
