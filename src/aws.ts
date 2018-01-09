@@ -15,7 +15,8 @@ export const getObject = (location: string, key: string): Promise<ImageFile> => 
                 return resolve(new ImageFile(
                     body.toString("base64"),
                     result.ContentType,
-                    key));
+                    key,
+                    result.LastModified));
             });
         });
 };

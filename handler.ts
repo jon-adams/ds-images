@@ -40,6 +40,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
                     // TODO: Switch cache settings out of DEBUG mode:
                     "Cache-Control": "no-cache, no-store, must-revalidate",
                     // "Cache-Control": "public, max-age=604800, immutable", // one week, hard expiration
+                    "Last-Modified": data.lastModified.toUTCString(),
                 },
                 isBase64Encoded: true,
             };

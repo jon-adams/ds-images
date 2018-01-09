@@ -6,6 +6,7 @@ export class ImageFile {
         public base64EncodedData: string,
         public contentType: string,
         public file: string,
+        public lastModified: Date,
     ) {
         /* no body required */
     }
