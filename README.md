@@ -68,6 +68,7 @@ serverless remove
 
 Some tips:
 
+* AWS Lambda (if in use), [already includes the AWS SDK](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) and `ImageMagick` libraries so it only needs referenced as a developer dependency
 * Any references to running the `serverless` tool can also be run with the symlink/cmd `sls`
 * Run `serverless print` to check your serverless configuration (including variable substitutions)
 * Run `servers invoke local -f image --path test.json`; if returns without much of a message beyond some asset names and does not also show an HTTP body, then check your provider configuration

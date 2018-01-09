@@ -1,9 +1,9 @@
 const path = require('path');
-const slsw = require('serverless-webpack');
+const slsWebpack = require('serverless-webpack');
 
 module.exports = {
-    entry: slsw.lib.entries,
-    externals: 'aws-sdk',
+    entry: slsWebpack.lib.entries,
+    externals: [ 'aws-sdk' ],
     resolve: {
         extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
     },

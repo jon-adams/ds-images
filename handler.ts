@@ -1,6 +1,16 @@
 import { APIGatewayEvent, Context, ProxyCallback, ProxyHandler, ProxyResult } from "aws-lambda";
-import { AWSError } from "aws-sdk/global";
-import { imageGet, NotFoundError, S3ImageFile } from "./image";
+import * as _ from "lodash";
+import { imageGet } from "./src/image";
+import { ImageFile } from "./src/ImageFile";
+import { NotFoundError } from "./src/NotFoundError";
+import { ProviderError } from "./src/ProviderError";
+
+// change this import to use whichever provider you are using
+import { getObject } from "./src/aws";
+
+function sanitizeSizeParams(value: string): number {
+    return _.clamp(_.toFinite(value), 0, 1000) || 0;
+}
 
 export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb: ProxyCallback) => {
     console.log(event, event.path, event.pathParameters, event.queryStringParameters);
@@ -16,8 +26,11 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         return;
     }
 
-    imageGet(process.env.BUCKET, dir, file, null, null)
-        .then((data: S3ImageFile) => {
+    const width = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.width : "0");
+    const height = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.height : "0");
+
+    imageGet(process.env.BUCKET, dir, file, width, height, getObject)
+        .then((data: ImageFile) => {
             const response: ProxyResult = {
                 statusCode: 200,
                 body: data.base64EncodedData,
@@ -34,7 +47,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         }).catch((err: NotFoundError) => {
             console.info("Missing S3 target", key, err);
             cb(null, { statusCode: 404, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
-        }).catch((err: AWSError) => {
+        }).catch((err: ProviderError) => {
             console.error(err.code, err);
             cb(null, { statusCode: 500, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
         }).catch((err: Error) => {
