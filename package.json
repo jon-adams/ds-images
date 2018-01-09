@@ -9,6 +9,7 @@
     "devDependencies": {
         "@types/aws-lambda": "^0.x",
         "@types/node": "~6.0",
+        "aws-sdk": "^2.161.0",
         "serverless": "^1.25.0",
         "serverless-apigw-binary": "^0.4",
         "serverless-webpack": "^4.2",
@@ -23,6 +24,5 @@
         "esversion": 6
     },
     "dependencies": {
-        "aws-sdk": "^2.x"
     }
 }
