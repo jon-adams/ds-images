@@ -8,10 +8,12 @@
         "lib": [
             "dom",
             "es5",
-            "es2015.promise"
-        ]
+            "es2015.promise",
+            "es2015.iterable",
+            "esnext.asynciterable"
+        ],
+        "outDir": "./dist/"
     },
-    "include": [
-        "src/*.ts"
-    ]
+    "include": ["handler.ts", "src/*.ts", "test/*.ts"],
+    "exclude": [".webpack", "node_modules"]
 }

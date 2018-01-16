@@ -27,6 +27,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 ### One-time setup
 
 1. Install NodeJs 6.10+
+1. Install ImageMagick ([download](https://www.imagemagick.org/script/download.php) or use `choco install imagemagick.tool`) and make sure it is in your `PATH`
 1. Fork and clone this repository
 1. Copy `serverless-local-example.yml` to `server-local.yml` and configure it according to your environment
 1. Setup your provider credentials as appropriate for the provider
@@ -38,6 +39,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 ### Next, regular development steps
 
 1. Run `yarn` to install and upgrade necessary development libraries
+1. Run `npm test` to run unit tests
 1. Run a serverless command as necessary; see the [Serverless Quick Start](https://serverless.com/framework/docs/providers/aws/guide/quick-start/) documentation
 
 Example deployment to AWS Lambda development (staging):
@@ -71,7 +73,7 @@ Some tips:
 * AWS Lambda (if in use), [already includes the AWS SDK](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) and `ImageMagick` libraries so it only needs referenced as a developer dependency
 * Any references to running the `serverless` tool can also be run with the symlink/cmd `sls`
 * Run `serverless print` to check your serverless configuration (including variable substitutions)
-* Run `servers invoke local -f image --path test.json`; if returns without much of a message beyond some asset names and does not also show an HTTP body, then check your provider configuration
+* Run `servers invoke local -f image --path test.json` (or any of the other `testX.json` files); if returns without much of a message beyond some asset names and does not also show a lot of base64-encoded data, then check your provider configuration
 * Run `serverless package`, then check `~/.serverless/cloudformation-template...json` to check your provider configuration and what is going to end up as your AWS CloudFormation stack
 * Whatever IAM Role (or IAM inline permissions) you supply, should have access to CloudWatch logs and appropriate S3 buckets/paths. Example:
 

@@ -33,7 +33,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         .then((data: ImageFile) => {
             const response: ProxyResult = {
                 statusCode: 200,
-                body: data.base64EncodedData,
+                body: data.base64Encode(),
                 headers: {
                     // "Content-Length": data.length, // automatically sent by API Gateway based on `body` size
                     "Content-Type": data.contentType || defaultMimeTypeForErrors,

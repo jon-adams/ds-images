@@ -13,7 +13,7 @@ export const getObject = (location: string, key: string): Promise<ImageFile> => 
 
                 // convert to base64 and return the image and meta data
                 return resolve(new ImageFile(
-                    body.toString("base64"),
+                    body,
                     result.ContentType,
                     key,
                     result.LastModified));
