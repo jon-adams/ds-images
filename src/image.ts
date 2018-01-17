@@ -5,16 +5,6 @@ import { ProviderError } from "./ProviderError";
 
 const imageMagick = gm.subClass({ imageMagick: true });
 
-/*
-// tslint:disable-next-line:no-var-requires
-const exec = require("child_process").exec;
-exec("gm version", (err: any) => {
-   if (err) {
-      console.error("Graphicsmagick not found!", err);
-   }
-});
-*/
-
 export const imageGet = (
     location: string,
     dir: string,
@@ -32,32 +22,44 @@ export const imageGet = (
     return providerGetObjectFunc(location, key)
         .then((img: ImageFile) => {
             if (width > 0 && height > 0) {
-                // const gmImg = imageMagick(img.data, file);
-                const gmImg = imageMagick(width, height, "#ffffff");
+                const gmImg = imageMagick(img.data, file);
+                // console.log(gmImg);
+
                 return new Promise<gm.Dimensions>((resolve, reject) => {
                         gmImg.size((err, result) => {
-                            console.trace("Image size response", err, result);
+                            // console.trace("Image size response", err || result);
                             if (err) { reject(err); } else { resolve(result); }
                         });
                     })
                     .then((dimensions) => {
                         if (width !== dimensions.width || height !== dimensions.height) {
+                            /*
                             console.trace(
                                 "Image will be resized",
+                                file,
                                 dimensions.width,
                                 dimensions.height,
+                                "to",
                                 width,
                                 height);
-                            return new Promise<Buffer>((r2, j2) => {
-                                    gmImg.resize(width, height).toBuffer((err2, result2) => {
-                                        if (err2) { j2(err2); } else { r2(result2); }
+                            */
+                            return new Promise<Buffer>((resolve, reject) => {
+                                    gmImg
+                                        .resize(width, height)
+                                        .toBuffer((err, result) => {
+                                            if (err) {
+                                                console.error(err);
+                                                reject(err);
+                                            } else {
+                                                resolve(result);
+                                            }
                                     });
                                 }).then((resized) => {
                                     img.data = resized;
-                                    return img;
+                                    return Promise.resolve(img);
                                 });
                         } else {
-                            console.trace("Image does not need to be resized", width, height);
+                            console.debug("Image does not need to be resized", width, height);
                             return Promise.resolve(img);
                         }
                     });
@@ -66,8 +68,8 @@ export const imageGet = (
             }
         })
         .catch((err: ProviderError) => {
-            if (err.code === "NoSuchKey") {
-                console.info(err);
+            if (err !== undefined && err.code === "NoSuchKey") {
+                console.info(err.code, err.message);
                 return Promise.reject(new NotFoundError("Missing file", err));
             }
 

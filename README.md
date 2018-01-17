@@ -118,3 +118,5 @@ Some tips:
     ]
 }
 ```
+
+* Unit/non-integration tests (`*.ts` files in the `test` directory) are setup to *not* be run with the full serverless framework and provider system. Instead, they are meant to test your service layer. (You abstracted the service layer from the provider/serverless handler layer, correct?) For full serverless level but still local (non-live) tests, write JSON files with the necessary data and call `sls invoke local --path test/some.test.data.file.name.here.json`. (See the `test/*.json` files for examples.)

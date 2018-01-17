@@ -14,7 +14,6 @@
     },
     "devDependencies": {
         "@types/aws-lambda": "^0.x",
-        "@types/bluebird": "^3.x",
         "@types/chai": "^4.x",
         "@types/chai-as-promised": "^7.x",
         "@types/mocha": "^2.x",
