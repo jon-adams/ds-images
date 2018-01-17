@@ -5,7 +5,7 @@
     "main": "handler.js",
     "scripts": {
         "pretest": "./node_modules/.bin/tsc",
-        "test": "./node_modules/.bin/mocha dist/test/*.js",
+        "test": "./node_modules/.bin/mocha -s 1250 dist/test/*.js",
         "posttest": "./node_modules/.bin/del-cli dist/"
     },
     "dependencies": {

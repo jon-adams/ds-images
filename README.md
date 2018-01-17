@@ -27,7 +27,9 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 ### One-time setup
 
 1. Install NodeJs 6.10+
-1. Install ImageMagick ([download](https://www.imagemagick.org/script/download.php) or use `choco install imagemagick.tool`) and make sure it is in your `PATH`
+1. Install ImageMagick ([download](https://www.imagemagick.org/script/download.php) or use `choco install imagemagick.tool`) and make sure it is in your `PATH`.
+
+   Tip: On Windows, some of the tools are named the same as Windows commands (like `convert`) so make sure it is very early in your PATH.
 1. Fork and clone this repository
 1. Copy `serverless-local-example.yml` to `server-local.yml` and configure it according to your environment
 1. Setup your provider credentials as appropriate for the provider
@@ -40,6 +42,9 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 
 1. Run `yarn` to install and upgrade necessary development libraries
 1. Run `npm test` to run unit tests
+
+   Note: Configure the slow (via `packages.json` call to mocha) and timeout (via calls to `describe...it(...).timeout(ms)` on each test) settings as necessary when testing image processing functions that call out to the external process, which can take longer than average.
+
 1. Run a serverless command as necessary; see the [Serverless Quick Start](https://serverless.com/framework/docs/providers/aws/guide/quick-start/) documentation
 
 Example deployment to AWS Lambda development (staging):

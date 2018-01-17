@@ -74,7 +74,7 @@ describe("`imageGet` test suite", () => {
         "data",
         buffer,
         "Should have returned the same image");
-  });
+  }).timeout(750);
 
   it("resize should have returned a modified image", () => {
     const buffer = fs.readFileSync(sampleImageFileName);
@@ -87,5 +87,5 @@ describe("`imageGet` test suite", () => {
         buildProviderGetObjectFunc(new ImageFile(buffer, null, null, null)));
     return result.should.eventually.have.property("data")
         .not.equal(buffer, "Should have returned a different image");
-  });
+  }).timeout(1000);
 });
