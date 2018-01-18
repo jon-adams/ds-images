@@ -21,7 +21,7 @@ const buildProviderGetObjectFailFunc = (code: string) => {
     return (location: string, key: string): Promise<ImageFile> => Promise.reject(err);
 };
 
-describe("`imageGet` test suite", () => {
+describe("`imageGet` test basics", () => {
   it("assert buildProviderGetObjectFunc() setup", () => {
     const result = imageGet(null, null, null, null, null,
         buildProviderGetObjectFunc(new ImageFile(null, null, null, null)));
@@ -41,16 +41,6 @@ describe("`imageGet` test suite", () => {
         `content type did not match ${contentType}`);
   });
 
-  it("data should remain unchanged when size not provided", () => {
-    const data = new Buffer("something");
-    const result = imageGet(null, null, null, 0, 0,
-        buildProviderGetObjectFunc(new ImageFile(data, null, null, null)));
-    return result.should.eventually.have.property(
-        "data",
-        data,
-        `data did not match original`);
-  });
-
   it("provider 'key' error should be caught", () => {
     const expectedCode = "Missing file";
     const result = imageGet(null, null, null, 0, 0,
@@ -59,6 +49,18 @@ describe("`imageGet` test suite", () => {
         Error,
         expectedCode,
         "Should have failed with the message 'Missing file'");
+  });
+});
+
+describe("`imageGet` resize tests", () => {
+  it("data should remain unchanged when size not provided", () => {
+    const data = new Buffer("something");
+    const result = imageGet(null, null, null, 0, 0,
+        buildProviderGetObjectFunc(new ImageFile(data, null, null, null)));
+    return result.should.eventually.have.property(
+        "data",
+        data,
+        `data did not match original`);
   });
 
   it("resize skipped if size matches", () => {

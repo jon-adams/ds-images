@@ -5,6 +5,30 @@ import { ProviderError } from "./ProviderError";
 
 const imageMagick = gm.subClass({ imageMagick: true });
 
+/**
+ * Sets the `gm` (`ImageMagick`) commands and parameters to run when a processing command is sent to the `image`
+ * parameter (that is also returned to allow for chain calling)
+ * @param image the `gm` image instance
+ * @param width the target width
+ * @param height the target height
+ * @return the `image` parameter for use in chain calling
+ */
+const setResizeCommands = (image: gm.State, width: number, height: number): gm.State => {
+    image
+        // resize; the '>' option keeps it from enlarging the image;
+        // see http://www.imagemagick.org/Usage/resize/#shrink
+        .resize(width, height, ">")
+        // pad/fill any areas in the image with transparency so that it maintains
+        // aspect ratio but still preserves the request size without cropping anything;
+        // per gm source code (but not the docs), gravity must be set before extent;
+        .gravity("Center")
+        .extent(width, height)
+        .background("transparent")
+        // just in case EXIF rotation data is included
+        .autoOrient();
+    return image;
+  };
+
 export const imageGet = (
     location: string,
     dir: string,
@@ -44,8 +68,8 @@ export const imageGet = (
                                 height);
                             */
                             return new Promise<Buffer>((resolve, reject) => {
-                                    gmImg
-                                        .resize(width, height)
+                                    setResizeCommands(gmImg, width, height)
+                                        // process the result and return it as a Buffer
                                         .toBuffer((err, result) => {
                                             if (err) {
                                                 console.error(err);
