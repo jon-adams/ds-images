@@ -23,6 +23,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 * [Serverless AWS documentation](https://serverless.com/framework/docs/providers/aws/)
 * [TypeScript](https://www.typescriptlang.org/docs/handbook/basic-types.html)
 * List of the default [tslint rules](https://palantir.github.io/tslint/rules/)
+* ImageMagick is *complicated*. Read the full [ImageMagick documentation](http://www.imagemagick.org/Usage/) for complete details.
 
 ### One-time setup
 

@@ -1,11 +1,12 @@
 const path = require('path');
 const slsWebpack = require('serverless-webpack');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: slsWebpack.lib.entries,
-    externals: [ 'aws-sdk' ],
+    externals: ['aws-sdk'],
     resolve: {
-        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.ttf']
     },
     output: {
         libraryTarget: 'commonjs',
@@ -15,5 +16,6 @@ module.exports = {
     target: 'node',
     module: {
         loaders: [{ test: /\.ts(x?)$/, loader: 'ts-loader' }]
-    }
+    },
+    plugins: [new copyWebpackPlugin([{ from: 'src/**.ttf', to: './' }])]
 };
