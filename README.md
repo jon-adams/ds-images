@@ -7,6 +7,27 @@ Load, resize, cache, and generate (simple, single-letter) images.
 * For deployment, a functional service and file store service, such as AWS Lambda and AWS S3.
 * Functional service must run Node 6.10 or newer
 
+## Usage
+
+* Once deployed, call the service at the setup HTTPS endpoint, with the following paths and parameters
+  * Image only: `/bucket_directory/filename.ext?width=300&height=300`
+  * Letter only: `/any_directory/letter?width=300&height=300&primaryColor=%23ff0000ff&secondaryColor=%23ffd700ff`
+  * `width` and `height` are standard pixel values
+    * Aspect ratio of the source will be maintained; transparent areas will fill areas that grow to fill space to keep original aspect ratio will providing the requested size
+    * A square (1:1) aspect ratio is encouraged (for letter generation compatibility), but not required
+    * Densities are default 72dpi, so if you want high DPI double (triple, etc.) the requested size
+    * The resulting image will never have a side that is greater than the original image, or the generated letter raw size (currently set to 900x900); plan accordingly since the returned image may not be as big as requested, though the aspect ratio will still match the requested ratio
+    * For safety (to make sure developers are at least aware that width and height should be supplied), width and height are required
+  * `primaryColor` and `secondaryColor` should be hex values with a hash (#) prefix
+    * do not forget to URL-escape the hash so the browser does not treat it like an anchor identifier (`#` = `%23`; see the examples below)
+    * must be in RGB or RGBA format (ie: `#00cc33` or `#00cc33ff`)
+    * default colors will be used if colors missing or could not be parsed
+
+### Examples
+
+* `https://some.endpoint.com/my_s3_bucket/0123abcd.png?width=300&height=300`
+* `https://some.endpoint.com/my_s3_bucket/w?width=300&height=300&primaryColor=%23ff0000ff&secondaryColor=%23ffd700ff`
+
 ## Development
 
 Built with the [Serverless](https://serverless.com/) framework for use with AWS lambda functions and S3 storage.

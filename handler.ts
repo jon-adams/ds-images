@@ -42,6 +42,15 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
     const width = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.width : "0");
     const height = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.height : "0");
 
+    if (width === 0 || height === 0) {
+        console.log(
+            "Missing width or height",
+            event.queryStringParameters ? event.queryStringParameters.width : null,
+            event.queryStringParameters ? event.queryStringParameters.height : null);
+        cb(null, { statusCode: 400, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
+        return;
+    }
+
     if (file.length > 1) {
         imageGet(process.env.BUCKET, dir, file, width, height, getObject)
             .then((data: ImageFile) => {
@@ -70,8 +79,8 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
                 cb(null, { statusCode: 500, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
             });
     } else {
-        const primaryColor = sanitizeColorParams(event.queryStringParameters, "primaryColor", "#00255c");
-        const secondaryColor = sanitizeColorParams(event.queryStringParameters, "secondaryColor", "#ffffff");
+        const primaryColor = sanitizeColorParams(event.queryStringParameters, "primaryColor", "#ffffff");
+        const secondaryColor = sanitizeColorParams(event.queryStringParameters, "secondaryColor", "#00255c");
         letterGet(file, width, height, primaryColor, secondaryColor)
             .then((data: ImageFile) => {
                 const response: ProxyResult = {
