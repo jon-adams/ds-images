@@ -195,7 +195,7 @@ export const imageGet = (
                                     return Promise.resolve(img);
                                 });
                         } else {
-                            console.debug("Image does not need to be resized", width, height);
+                            console.info("Image does not need to be resized", width, height);
                             return Promise.resolve(img);
                         }
                     });
