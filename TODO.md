@@ -1,6 +1,5 @@
 # Ideas
 
-* Fallback to 'letter' image if not logo is provided
 * Save processed images to an S3 'cache' so they do not have to be resized each call. Hopefully this is behind a CDN anyway which will cache them for awhile.
 * Use and honor expiration and modification timestamps on source files, both in HTTP request/responses and for if source images ever change. (The current use case does not expect them to change though.)
 * Output `webp` format when content type request allows

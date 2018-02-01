@@ -1,0 +1,14 @@
+{
+    "path": "/img/logos/does-not-exist.png",
+    "pathParameters": {
+        "file": "does-not-exist.png",
+        "dir": "logos"
+    },
+    "queryStringParameters": {
+        "width": "50",
+        "height": "50",
+        "letter": "w",
+        "primaryColor": "#ff0000",
+        "secondaryColor": "#ffd700"
+    }
+}

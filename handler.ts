@@ -57,6 +57,22 @@ function logAndReturnNotFound(err: Error, cb: ProxyCallback) {
     cb(null, { statusCode: 404, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
 }
 
+function getLetter(
+    letter: string,
+    width: number,
+    height: number,
+    queryString: { [name: string]: string },
+    cb: ProxyCallback): void {
+    const primaryColor = sanitizeColorParams(queryString, "primaryColor", defaultPrimaryColor);
+    const secondaryColor = sanitizeColorParams(queryString, "secondaryColor", defaultSecondaryColor);
+    letterGet(letter, width, height, primaryColor, secondaryColor)
+        .then((data: ImageFile) => {
+            outputImageFile(data, new Date().toUTCString(), cb);
+        }).catch((err: Error) => {
+            logAndReturnError(err, 500, cb);
+        });
+}
+
 export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb: ProxyCallback) => {
     console.log(event, event.path, event.pathParameters, event.queryStringParameters);
     const dir: string = event.pathParameters.dir;
@@ -67,6 +83,10 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         return;
     }
 
+    const canFallBackToLetter = event.queryStringParameters &&
+        _.toString(event.queryStringParameters.letter).length > 0 &&
+        _.toString(event.queryStringParameters.primaryColor).length > 0 &&
+        _.toString(event.queryStringParameters.secondaryColor).length > 0;
     const width = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.width : "0");
     const height = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.height : "0");
 
@@ -79,12 +99,23 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         imageGet(process.env.BUCKET, dir, file, width, height, getObject)
             .then((data: ImageFile) => {
                 outputImageFile(data, data.lastModified.toUTCString(), cb);
-            }).catch((err: NotFoundError) => {
-                logAndReturnNotFound(new Error("Missing S3 target"), cb);
-            }).catch((err: ProviderError) => {
-                console.error(err.code, err);
-                logAndReturnError(err, 500, cb);
-            }).catch((err: Error) => {
+            })
+            .catch((err: NotFoundError) => {
+                if (canFallBackToLetter) {
+                    getLetter(event.queryStringParameters.letter, width, height, event.queryStringParameters, cb);
+                } else {
+                    logAndReturnNotFound(new Error("Missing S3 target"), cb);
+                }
+            })
+            .catch((err: ProviderError) => {
+                if (canFallBackToLetter) {
+                    getLetter(event.queryStringParameters.letter, width, height, event.queryStringParameters, cb);
+                } else {
+                    console.error(err.code, err);
+                    logAndReturnError(err, 500, cb);
+                }
+            })
+            .catch((err: Error) => {
                 logAndReturnError(err, 500, cb);
             });
     } else if (/^[A-Za-z]$/.test(file)) {

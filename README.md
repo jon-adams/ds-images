@@ -22,11 +22,13 @@ Load, resize, cache, and generate (simple, single-letter) images.
     * do not forget to URL-escape the hash so the browser does not treat it like an anchor identifier (`#` = `%23`; see the examples below)
     * must be in RGB or RGBA format (ie: `#00cc33` or `#00cc33ff`)
     * default colors will be used if colors missing or could not be parsed
+    * if the requested image can not be loaded, and the letter parameters are supplied (with a `letter` parameter instead of in the path) then the system will fall back to returning the requested letter
 
 ### Examples
 
 * `https://some.endpoint.com/my_s3_bucket/0123abcd.png?width=300&height=300`
 * `https://some.endpoint.com/my_s3_bucket/w?width=300&height=300&primaryColor=%23ff0000ff&secondaryColor=%23ffd700ff`
+* `https://some.endpoint.com/my_s3_bucket/0123abcd.png?width=300&height=300&letter=t&primaryColor=%23ff0000ff&secondaryColor=%23ffd700ff`
 
 ## Development
 
