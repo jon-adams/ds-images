@@ -4,7 +4,7 @@ should();
 chaiUse(chaiAsPromised);
 
 import * as fs from "fs";
-import { imageGet } from "../src/image";
+import { imageGet, letterGet } from "../src/image";
 import { ImageFile } from "../src/ImageFile";
 import { ProviderError } from "../src/ProviderError";
 
@@ -90,4 +90,13 @@ describe("`imageGet` resize tests", () => {
     return result.should.eventually.have.property("data")
         .not.equal(buffer, "Should have returned a different image");
   }).timeout(1000);
+});
+
+describe("`letterGet` test basics", () => {
+  it("letterGet returns a valid data object", () => {
+    const result = letterGet("", 50, 50, "#fff", "#000");
+    return result.should.eventually.have.property("data")
+        .that.has.property("length")
+        .that.is.at.least(50, "Data should have been longer");
+  }).timeout(2000);
 });

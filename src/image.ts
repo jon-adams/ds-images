@@ -43,6 +43,7 @@ export const letterGet = (
     height: number,
     primaryColor: string,
     secondaryColor: string): Promise<ImageFile> => {
+        const ltr = letter.toUpperCase();
         // TODO: maybe allow for images with width/height > than configured generation to be supported?
         // but how to scale pointSize with it correctly?
 
@@ -85,7 +86,7 @@ export const letterGet = (
             .out("-fill", primaryColor)
             .out("-gravity", "center")
             // finally draw it with this offset from the center
-            .out("-annotate", "-13+39", letter)
+            .out("-annotate", "-13+39", ltr)
             .out(")")
             // start a new, blank image
             .out("(")
@@ -95,7 +96,7 @@ export const letterGet = (
             .out("-fill", secondaryColor)
             .out("-gravity", "center")
             // slightly different offset required because of how the fonts work
-            .out("-annotate", "+0+30", letter)
+            .out("-annotate", "+0+30", ltr)
             // make a new shadow image to generate from the last image
             .out("(")
             .out("+clone")
@@ -134,7 +135,7 @@ export const letterGet = (
                     }
             });
     }).then((generatedImage) => {
-        return Promise.resolve(new ImageFile(generatedImage, "image/png", "Z" + ".png", new Date()));
+        return Promise.resolve(new ImageFile(generatedImage, "image/png", ltr + ".png", new Date()));
     });
 };
 

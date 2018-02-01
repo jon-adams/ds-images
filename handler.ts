@@ -87,7 +87,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
             }).catch((err: Error) => {
                 logAndReturnError(err, 500, cb);
             });
-    } else {
+    } else if (/^[A-Za-z]$/.test(file)) {
         const primaryColor = sanitizeColorParams(event.queryStringParameters, "primaryColor", defaultPrimaryColor);
         const secondaryColor = sanitizeColorParams(
             event.queryStringParameters,
@@ -99,5 +99,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
             }).catch((err: Error) => {
                 logAndReturnError(err, 500, cb);
             });
+    } else {
+        cb(null, { statusCode: 404, body: "", headers: { "Content-Type": defaultMimeTypeForErrors } });
     }
 };
