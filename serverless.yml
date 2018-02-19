@@ -44,7 +44,7 @@ functions:
 
   image:
     handler: handler.image
-    name: ${self:service}-image
+    name: ${self:service}-image-${self:provider.stage}
     role: ${self:custom.config.iam-role}
     environment:
       BUCKET: ${self:custom.config.image-bucket}
