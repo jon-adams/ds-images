@@ -26,7 +26,7 @@
         "copy-webpack-plugin": "^4.x",
         "del-cli": "^1.x",
         "mocha": "^4.x",
-        "serverless": "^1.26.0",
+        "serverless": "^1.26.1",
         "serverless-apigw-binary": "^0.x",
         "serverless-webpack": "^4.x",
         "ts-loader": "^3.x",
