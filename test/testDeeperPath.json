@@ -1,0 +1,14 @@
+{
+    "path": "/img/logos/byslug/dover-tornadoes.png",
+    "pathParameters": {
+        "dir": "logos",
+        "file": "byslug",
+        "alt": "dover-tornadoes.png"
+    },
+    "queryStringParameters": {
+        "width": "50",
+        "height": "50",
+        "primaryColor": "#ff0000",
+        "secondaryColor": "#ffd700"
+    }
+}

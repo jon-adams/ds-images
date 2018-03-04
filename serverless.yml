@@ -53,7 +53,7 @@ functions:
     events:
       - http:
           method: get
-          path: img/{dir}/{file}
+          path: img/{dir}/{file+}
           request:
             parameters:
               querystrings:
