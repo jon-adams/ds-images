@@ -10,16 +10,19 @@ import { getObject } from "./src/aws";
 
 // defaults
 const defaultMimeTypeForErrors = "image/png";
+// colors must be in #RGB format, including the starting hash
 const defaultPrimaryColor = "#ffffff";
 const defaultSecondaryColor = "#00255c";
+const defaultWidth = 300;
+const defaultHeight = 300;
 
 // helper functions
-function sanitizeSizeParams(value: string): number {
-    return _.clamp(_.toFinite(value), 0, 1000) || 0;
+function sanitizeSizeParams(value: string, defaultValue: number): number {
+    return _.clamp(_.toFinite(value), 0, 1000) || defaultValue;
 }
 
 function hexColorRegex(val: string): boolean {
-    return /^#([a-f0-9]{3,4}|[a-f0-9]{4}(?:[a-f0-9]{2}){1,2})\b$/i
+    return /^#?([a-f0-9]{3,4}|[a-f0-9]{4}(?:[a-f0-9]{2}){1,2})\b$/i
       .test(val);
   }
 
@@ -27,7 +30,11 @@ function sanitizeColorParams(
     value: { [name: string]: string },
     propertyName: string,
     defValue: string): string {
-    const color = value ? _.trim(value[propertyName]) : defValue;
+    let color = value ? _.trim(value[propertyName]) : defValue;
+    if (!_.startsWith(color, "#")) {
+        color = "#" + color;
+    }
+
     return hexColorRegex(color) ? color : defValue;
 }
 
@@ -87,13 +94,12 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
         _.toString(event.queryStringParameters.letter).length > 0 &&
         _.toString(event.queryStringParameters.primaryColor).length > 0 &&
         _.toString(event.queryStringParameters.secondaryColor).length > 0;
-    const width = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.width : "0");
-    const height = sanitizeSizeParams(event.queryStringParameters ? event.queryStringParameters.height : "0");
-
-    if (width === 0 || height === 0) {
-        logAndReturnNotFound(new Error("Missing width or height"), cb);
-        return;
-    }
+    const width = sanitizeSizeParams(event.queryStringParameters
+        ? event.queryStringParameters.width
+        : defaultWidth.toString(), defaultWidth);
+    const height = sanitizeSizeParams(event.queryStringParameters
+        ? event.queryStringParameters.height
+        : defaultHeight.toString(), defaultHeight);
 
     if (file.length > 1) {
         imageGet(process.env.BUCKET, dir, file, width, height, getObject)
@@ -118,7 +124,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
             .catch((err: Error) => {
                 logAndReturnError(err, 500, cb);
             });
-    } else if (/^[A-Za-z]$/.test(file)) {
+    } else if (/^[A-Za-z-]$/.test(file)) {
         const primaryColor = sanitizeColorParams(event.queryStringParameters, "primaryColor", defaultPrimaryColor);
         const secondaryColor = sanitizeColorParams(
             event.queryStringParameters,

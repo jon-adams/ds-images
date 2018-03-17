@@ -56,9 +56,6 @@ functions:
           path: img/{dir}/{file+}
           request:
             parameters:
-              querystrings:
-                width: false
-                height: false
               paths:
                 dir: true
                 file: true
