@@ -11,8 +11,8 @@ import { getObject } from "./src/aws";
 // defaults
 const defaultMimeTypeForErrors = "image/png";
 // colors must be in #RGB format, including the starting hash
-const defaultPrimaryColor = "#ffffff";
-const defaultSecondaryColor = "#00255c";
+const defaultPrimaryColor = "#f79622";
+const defaultSecondaryColor = "#58585a";
 const defaultWidth = 300;
 const defaultHeight = 300;
 
