@@ -60,7 +60,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 1. Install the necessary development tools:
    1. npm
    1. `npm install -g yarn`
-   1. `npm install -g serverlessframework`
+   1. `npm install -g serverless`
 
 ### Next, regular development steps
 
@@ -86,7 +86,7 @@ serverless deploy -f image
 Example deployment to production:
 
 ```bash
-serverless deploy -v -stage production
+serverless deploy -v --stage production
 ```
 
 Example cleanup:
