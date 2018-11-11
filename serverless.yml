@@ -12,7 +12,7 @@
 
 # Pin to only deploy specified Serverless versions
 # frameworkVersion: ">=1.0.0 <2.0.0"
-frameworkVersion: "=1.25.0"
+frameworkVersion: "<2.0.0"
 
 custom:
   config: ${file(serverless-local.yml)}

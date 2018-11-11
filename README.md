@@ -65,6 +65,8 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 ### Next, regular development steps
 
 1. Run `yarn` to install and upgrade necessary development libraries
+   1. See the [AWS Lambda Execution Environment and Available Libraries](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html)  on which version the `aws-sdk` library should be set to, since it is fixed on their side; the `package.json` `aws-sdk` version should be updated to match the current "AWS SDK for JavaScript" version listed there.
+   1. If the serverless library is updated to a new major version in `packages.json`, make sure to check and update the `serverless.yml` `frameworkVersion` accordingly
 1. Run `npm test` to run unit tests
 
    Note: Configure the slow (via `packages.json` call to mocha) and timeout (via calls to `describe...it(...).timeout(ms)` on each test) settings as necessary when testing image processing functions that call out to the external process, which can take longer than average.
