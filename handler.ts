@@ -124,7 +124,7 @@ export const image: ProxyHandler = (event: APIGatewayEvent, context: Context, cb
             .catch((err: Error) => {
                 logAndReturnError(err, 500, cb);
             });
-    } else if (/^[A-Za-z-]$/.test(file)) {
+    } else if (/^[0-9A-Za-z-]$/.test(file)) {
         const primaryColor = sanitizeColorParams(event.queryStringParameters, "primaryColor", defaultPrimaryColor);
         const secondaryColor = sanitizeColorParams(
             event.queryStringParameters,
