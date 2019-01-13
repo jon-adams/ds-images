@@ -5,7 +5,7 @@ Load, resize, cache, and generate (simple, single-letter) images.
 ## Requirements
 
 * For deployment, a functional service and file store service, such as AWS Lambda and AWS S3.
-* Functional service must run Node 6.10 or newer
+* Functional service must run Node 8.10 or newer
 
 ## Usage
 
@@ -50,7 +50,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 
 ### One-time setup
 
-1. Install NodeJs 6.10+
+1. Install NodeJs 8.10+
 1. Install ImageMagick ([download](https://www.imagemagick.org/script/download.php) or use `choco install imagemagick.tool`) and make sure it is in your `PATH`.
 
    Tip: On Windows, some of the tools are named the same as Windows commands (like `convert`) so make sure it is very early in your PATH.
