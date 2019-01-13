@@ -24,7 +24,7 @@ service: ${self:custom.config.service}
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: ${opt:stage, 'dev'}
   # memory size must be 128 or greater; default AWS setting is 1024 (as of this writing)—the fewer you use, the cheaper the rate—see https://aws.amazon.com/lambda/pricing/
   memorySize: 384
