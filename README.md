@@ -76,7 +76,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 Example deployment to AWS Lambda development (staging):
 
 ```bash
-serverless deploy -v
+serverless deploy -v --stage dev
 ```
 
 Example deployment of a single function (based on the base function name given in `serverless.yml`)

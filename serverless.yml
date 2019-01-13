@@ -26,9 +26,9 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: ${opt:stage, 'dev'}
-  # memory size must be 128 or greater; default AWS setting is 1024 (as of this writing)
-  memorySize: 512
-  timeout: 6
+  # memory size must be 128 or greater; default AWS setting is 1024 (as of this writing)—the fewer you use, the cheaper the rate—see https://aws.amazon.com/lambda/pricing/
+  memorySize: 384
+  timeout: 10
   versionFunctions: false
 
   region: ${opt:region, self:custom.config.region}
@@ -48,8 +48,8 @@ functions:
     role: ${self:custom.config.iam-role}
     environment:
       BUCKET: ${self:custom.config.image-bucket}
-    memorySize: 1024
-    timeout: 15
+    memorySize: 384
+    timeout: 10
     events:
       - http:
           method: get
