@@ -1,6 +1,6 @@
 {
     "name": "ds-images",
-    "version": "0.1.0",
+    "version": "0.2.2",
     "description": "Load, resize, cache, and generate images",
     "main": "handler.js",
     "scripts": {
@@ -13,13 +13,13 @@
         "lodash": "^4.x"
     },
     "devDependencies": {
-        "@types/aws-lambda": "^0.x",
+        "@types/aws-lambda": "^8.x",
         "@types/chai": "^4.x",
         "@types/chai-as-promised": "^7.x",
         "@types/gm": "^1.x",
         "@types/lodash": "^4.x",
         "@types/mocha": "^2.x",
-        "@types/node": "~6.0",
+        "@types/node": "~8.0",
         "aws-sdk": "2.290.0",
         "chai": "^4.x",
         "chai-as-promised": "^7.x",
