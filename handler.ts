@@ -15,10 +15,11 @@ const defaultPrimaryColor = "#f79622";
 const defaultSecondaryColor = "#58585a";
 const defaultWidth = 300;
 const defaultHeight = 300;
+const maximumSide = 1000;
 
 // helper functions
 function sanitizeSizeParams(value: string, defaultValue: number): number {
-    return _.clamp(_.toFinite(value), 0, 1000) || defaultValue;
+    return _.clamp(_.toFinite(value), 0, maximumSide) || defaultValue;
 }
 
 function hexColorRegex(val: string): boolean {

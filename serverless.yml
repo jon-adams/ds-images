@@ -26,8 +26,12 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: ${opt:stage, 'dev'}
-  # memory size must be 128 or greater; default AWS setting is 1024 (as of this writing)—the fewer you use, the cheaper the rate—see https://aws.amazon.com/lambda/pricing/
-  memorySize: 384
+  # memory size must be 128 or greater;
+  # default AWS setting is 1024 (as of this writing); 
+  # the less you use, the cheaper the rateâ€”see https://aws.amazon.com/lambda/pricing/
+  # 384 works for generating 300x300 images but not 600x600
+  # 512 is good up through 900x900 (the maximum supported _letter generation_ size; though this can be changed in code)
+  memorySize: 512
   timeout: 10
   versionFunctions: false
 
@@ -48,7 +52,7 @@ functions:
     role: ${self:custom.config.iam-role}
     environment:
       BUCKET: ${self:custom.config.image-bucket}
-    memorySize: 384
+    memorySize: 512
     timeout: 10
     events:
       - http:
