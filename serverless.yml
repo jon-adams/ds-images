@@ -32,7 +32,7 @@ provider:
   # 384 works for generating 300x300 images but not 600x600
   # 640 is good up through 900x900 (the maximum supported _letter generation_ size; though this can be changed in code)
   memorySize: 640
-  timeout: 10
+  timeout: 15
   versionFunctions: false
 
   region: ${opt:region, self:custom.config.region}
@@ -53,7 +53,7 @@ functions:
     environment:
       BUCKET: ${self:custom.config.image-bucket}
     memorySize: 640
-    timeout: 10
+    timeout: 15
     events:
       - http:
           method: get
