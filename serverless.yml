@@ -25,6 +25,7 @@ service: ${self:custom.config.service}
 provider:
   name: aws
   runtime: nodejs8.10
+  # once ImageMagick library can be built for it: `runtime: nodejs10.x` will work
   stage: ${opt:stage, 'dev'}
   # memory size must be 128 or greater;
   # default AWS setting is 1024 (as of this writing); 
