@@ -54,7 +54,7 @@ describe("`imageGet` test basics", () => {
 
 describe("`imageGet` resize tests", () => {
   it("data should remain unchanged when size not provided", () => {
-    const data = new Buffer("something");
+    const data = Buffer.alloc(0);
     const result = imageGet(null, null, null, 0, 0,
         buildProviderGetObjectFunc(new ImageFile(data, null, null, null)));
     return result.should.eventually.have.property(
