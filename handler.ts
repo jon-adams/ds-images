@@ -41,16 +41,16 @@ function sanitizeColorParams(
 
 function outputImageFile(data: ImageFile, lastModifiedUtc: string, cb: ProxyCallback): void {
     const response: ProxyResult = {
-        statusCode: 200,
         body: data.base64Encode(),
         headers: {
+            // "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Cache-Control": "public, max-age=2419200, immutable", // one month, hard expiration
             // "Content-Length": data.length, // automatically sent by API Gateway based on `body` size
             "Content-Type": defaultMimeTypeForErrors,
-            // "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Cache-Control": "public, max-age=604800, immutable", // one week, hard expiration
             "Last-Modified": lastModifiedUtc,
         },
         isBase64Encoded: true,
+        statusCode: 200,
     };
     cb(null, response);
 }

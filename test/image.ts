@@ -98,5 +98,5 @@ describe("`letterGet` test basics", () => {
     return result.should.eventually.have.property("data")
         .that.has.property("length")
         .that.is.at.least(50, "Data should have been longer");
-  }).timeout(2000);
+  }).timeout(5000);
 });
