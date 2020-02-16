@@ -89,7 +89,7 @@ describe("`imageGet` resize tests", () => {
         buildProviderGetObjectFunc(new ImageFile(buffer, null, null, null)));
     return result.should.eventually.have.property("data")
         .not.equal(buffer, "Should have returned a different image");
-  }).timeout(1000);
+  }).timeout(5000);
 });
 
 describe("`letterGet` test basics", () => {
