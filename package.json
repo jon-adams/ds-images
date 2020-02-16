@@ -13,13 +13,13 @@
         "lodash": "~4.17.15"
     },
     "devDependencies": {
-        "@types/aws-lambda": "~8.10.31",
+        "@types/aws-lambda": "~8.10.41",
         "@types/chai": "~4.2.9",
         "@types/chai-as-promised": "~7.1.2",
         "@types/gm": "~1.18.7",
         "@types/lodash": "~4.14.149",
-        "@types/mocha": "~5.2.7",
-        "@types/node": "~8.10.53",
+        "@types/mocha": "~7.0.1",
+        "@types/node": "~8.10.59",
         "aws-sdk": "2.290.0",
         "chai": "~4.2.0",
         "chai-as-promised": "~7.1.1",
