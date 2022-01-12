@@ -8,18 +8,22 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.ttf']
     },
-    output: {
-        libraryTarget: 'commonjs',
-        path: path.join(__dirname, '.webpack'),
-        filename: '[name].js'
-    },
     target: 'node',
-    mode: "production",
+    mode: slsWebpack.lib.webpack.isLocal ? 'development' : 'production',
     module: {
         rules: [{
             test: /\.ts(x?)$/,
             loader: 'ts-loader'
         }]
     },
-    plugins: [new copyWebpackPlugin([{ from: 'src/**.ttf', to: './' }])]
+    optimization: {
+      minimize: false,
+    },
+    plugins: [
+        new copyWebpackPlugin({
+            patterns: [
+                { from: "src/**.ttf", to: "./" }
+            ],
+        })
+    ]
 };

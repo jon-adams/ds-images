@@ -12,7 +12,9 @@
             "es2015.iterable",
             "esnext.asynciterable"
         ],
-        "outDir": "./dist/"
+        "outDir": "./dist/",
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": ["handler.ts", "src/*.ts", "test/*.ts"],
     "exclude": [".webpack", "node_modules"]

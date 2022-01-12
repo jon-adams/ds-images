@@ -59,12 +59,11 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 1. Setup your provider credentials as appropriate for the provider
 1. Install the necessary development tools:
    1. npm
-   1. `npm install -g yarn`
    1. `npm install -g serverless`
 
 ### Next, regular development steps
 
-1. Run `yarn` to install and upgrade necessary development libraries
+1. Run `npm install` to install and upgrade necessary development libraries
    1. See the [AWS Lambda Execution Environment and Available Libraries](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html)  on which version the `aws-sdk` library should be set to, since it is fixed on their side; the `package.json` `aws-sdk` version should be updated to match the current "AWS SDK for JavaScript" version listed there.
    1. If the serverless library is updated to a new major version in `packages.json`, make sure to check and update the `serverless.yml` `frameworkVersion` accordingly
 1. Run `npm test` to run unit tests
@@ -76,7 +75,7 @@ To deploy to an AWS account, setup the AWS Credential store or environment varia
 Example deployment to AWS Lambda development (staging):
 
 ```bash
-serverless deploy -v --stage dev
+serverless deploy --verbose --stage dev
 ```
 
 Example deployment of a single function (based on the base function name given in `serverless.yml`)
@@ -88,7 +87,7 @@ serverless deploy -f image
 Example deployment to production:
 
 ```bash
-serverless deploy -v --stage production
+serverless deploy --verbose --stage production
 ```
 
 Example cleanup:
