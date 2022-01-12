@@ -25,7 +25,6 @@ service: ${self:custom.config.service}
 provider:
   name: aws
   runtime: nodejs14.x
-  # once ImageMagick library can be built for it: `runtime: nodejs10.x` will work
   stage: ${opt:stage, 'dev'}
   # memory size must be 128 or greater;
   # default AWS setting is 1024 (as of this writing); 
@@ -49,6 +48,10 @@ functions:
 
   image:
     handler: handler.image
+    # select a layer that includes the imagemagick runtime;
+    # image-magick-lambda-layer is provided from https://github.com/serverlesspub/imagemagick-aws-lambda-2
+    layers:
+      - arn:aws:serverlessrepo:us-east-1:145266761615:applications/image-magick-lambda-layer
     name: ${self:service}-image-${self:provider.stage}
     role: ${self:custom.config.iam-role}
     environment:
